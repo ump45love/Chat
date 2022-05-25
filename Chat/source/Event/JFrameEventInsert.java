@@ -30,10 +30,28 @@ public class JFrameEventInsert {
 		});
 	}
 	
+	public static void ConnectServer(BodyBone bone,Client client) {
+		bone.OtherAreaUserList.ServerCreateButton.addActionListener(e ->{
+			client.SendMessage(Network.Client.ROOM_CREATE+"trash");
+			bone.ChatTextArea.setText(null);
+		});
+	}
+	
+	public static void CreateServer(BodyBone bone,Client client) {
+		bone.OtherAreaUserList.ServerJoinButton.addActionListener(e ->{
+			client.SendMessage(Network.Client.ROOM_CONNECT + "1");
+			bone.ChatTextArea.setText(null);
+		});
+	}
+	
+	
+	
 	public static void InsertEvent(BodyBone bone,Client client) {
 		UserListEvent(bone);
 		SettingButtonEvent(bone);
-		 SendMessage(bone,client);
+		SendMessage(bone,client);
+		CreateServer(bone,client);
+		ConnectServer(bone,client);
 	}
 	
 

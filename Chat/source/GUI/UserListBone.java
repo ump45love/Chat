@@ -30,9 +30,9 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 
 public class UserListBone extends JFrame {
-
-	private JPanel contentPane;
 	
+	private JPanel contentPane;
+	ImageIcon OtherAreaImg = new ImageIcon("AreaImage/OtherAreaImage.png");
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -47,17 +47,12 @@ public class UserListBone extends JFrame {
 	}
 
 	public UserListBone() {
-		ImageIcon ServerCreateImg = new ImageIcon("ButtonImage/ServerCreate.png");
-		ImageIcon ServerJoinImg = new ImageIcon("ButtonImage/ServerJoin.png");
-		ImageIcon PressedServerCreateImg = new ImageIcon("ButtonImage/PressedServerCreate.png");
-		ImageIcon PressedServerJoinImg = new ImageIcon("ButtonImage/PressedServerJoin.png");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 710, 601);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		setContentPane(contentPane);
-		ImageIcon OtherAreaImg = new ImageIcon("AreaImage/OtherAreaImage.png");
 		UserListBonePanel OtherArea = new UserListBonePanel(OtherAreaImg.getImage());
 		getContentPane().add(OtherArea);
 		OtherArea.setLayout(null);
@@ -69,18 +64,21 @@ public class UserListBone extends JFrame {
 		ImageIcon ServerJoinImg = new ImageIcon("ButtonImage/ServerJoin.png");
 		ImageIcon PressedServerCreateImg = new ImageIcon("ButtonImage/PressedServerCreate.png");
 		ImageIcon PressedServerJoinImg = new ImageIcon("ButtonImage/PressedServerJoin.png");
+		public JButton ServerJoinButton;
+		public JButton ServerCreateButton;
+		public JTextArea UserListTextArea;
 		public UserListBonePanel(Image img) {
 			super(img);
 			setBackground(Color.GRAY);
 			setBounds(380, 34, 153, 535);
 			setLayout(null);
 			
-			JTextArea UserListTextArea = new JTextArea();
+			UserListTextArea = new JTextArea();
 			UserListTextArea.setFont(new Font("Monospaced", Font.BOLD, 13));
 			UserListTextArea.setBackground(new Color(178,178,178));
 			UserListTextArea.setBounds(12, 10, 129, 446);
 			
-			JButton ServerJoinButton = new JButton(ServerJoinImg);
+			ServerJoinButton = new JButton(ServerJoinImg);
 			ServerJoinButton.setBounds(10, 502, 136, 23);
 			add(ServerJoinButton);
 			ServerJoinButton.setForeground(UIManager.getColor("window"));
@@ -94,7 +92,7 @@ public class UserListBone extends JFrame {
 			ServerJoinButton.setPressedIcon(PressedServerJoinImg);
 			
 			
-			JButton ServerCreateButton = new JButton(ServerCreateImg);
+			ServerCreateButton = new JButton(ServerCreateImg);
 			ServerCreateButton.setBounds(10, 469, 136, 23);
 			add(ServerCreateButton);
 			ServerCreateButton.addActionListener(new ActionListener() {

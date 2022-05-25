@@ -58,7 +58,7 @@ public class Client extends Thread{
 	}
 	
 	public void SendMessage(String msg) {
-		out.println(msg+"\n");
+		out.println(msg);
 		out.flush();
 	}
 	public void StopConnect() {
@@ -72,11 +72,10 @@ public class Client extends Thread{
 	
 	 @Override
 	  public void run() {
-		 Thread read = new Thread(() -> ReadMessage());
 		 while(true) {
 			 try {Thread.sleep(10);} catch (InterruptedException e) 
 			 {e.printStackTrace();}
-			 read.start();
+			 ReadMessage();
 		 }
 	  }
 }
