@@ -25,6 +25,7 @@ public class Client extends Thread{
 	PrintWriter out;
 	String postAddress;
 	int port;
+	boolean connectCheck;
 	
 	
 	int PortNumber;
@@ -34,27 +35,29 @@ public class Client extends Thread{
 		out = null;
 		postAddress = Address;
 		port = port_;
+		connectCheck= false;
 	}
 	
 	public void ConnectServer() {
 		try {
-			ClientSocket = new Socket("127.0.0.1",port);
+			ClientSocket = new Socket(postAddress,port);
 			out = new PrintWriter(ClientSocket.getOutputStream());
 			in = new BufferedReader(new InputStreamReader(ClientSocket.getInputStream()));
+			connectCheck =true;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public String ReadMessage() {
+	public void ReadMessage() {
 		try {
-			return in.readLine();
+			System.out.println( in.readLine());
+			//return in.readLine();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
 	}
 	
 	public void SendMessage(String msg) {
@@ -75,7 +78,13 @@ public class Client extends Thread{
 		 while(true) {
 			 try {Thread.sleep(10);} catch (InterruptedException e) 
 			 {e.printStackTrace();}
-			 ReadMessage();
+			 if(connectCheck)
+				 ReadMessage();
+			 else {
+				 ConnectServer();
+				 try {Thread.sleep(1000);} 
+				 catch (InterruptedException e) {e.printStackTrace();}
+			 }
 		 }
 	  }
 }

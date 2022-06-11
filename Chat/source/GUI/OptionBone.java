@@ -14,10 +14,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-public class OptionBone extends JFrame {
+import GUI.UserListBone.UserListBonePanel;
 
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import java.awt.SystemColor;
+
+public class OptionBone extends JFrame {
+	ImageIcon OtherAreaImg = new ImageIcon("AreaImage/OtherAreaImage.png");
 	private JPanel contentPane;
 
 	/**
@@ -28,6 +35,7 @@ public class OptionBone extends JFrame {
 			public void run() {
 				try {
 					OptionBone frame = new OptionBone();
+					
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,26 +48,20 @@ public class OptionBone extends JFrame {
 	 * Create the frame.
 	 */
 	public OptionBone() {
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 766, 601);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		setContentPane(contentPane);
-		ImageIcon OtherAreaImg = new ImageIcon("AreaImage/OtherAreaImage.png");
-		DrawImage OtherArea = new DrawImage(OtherAreaImg.getImage());
-		OtherArea.setBackground(Color.GRAY);
+		OptionBonePanel OtherArea = new OptionBonePanel(OtherAreaImg.getImage());
+		OtherArea.setBounds(375, 5, -1, -1);
 		getContentPane().add(OtherArea);
+		
+
 		OtherArea.setLayout(null);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(12, 132, 97, 23);
-		OtherArea.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.setBounds(12, 221, 97, 23);
-		OtherArea.add(btnNewButton_1);
-		contentPane.setLayout(null);
+		
 	}
 	
 	public static class OptionBonePanel extends DrawImage{
@@ -69,13 +71,68 @@ public class OptionBone extends JFrame {
 			setBounds(380, 34, 153, 535);
 			setLayout(null);
 			
-			JButton btnNewButton = new JButton("New button");
-			btnNewButton.setBounds(12, 132, 97, 23);
-			add(btnNewButton);
+			ImageIcon loginImg = new ImageIcon("ButtonImage/Login.png");
+			ImageIcon signupImg = new ImageIcon("ButtonImage/SignUp.png");
+			ImageIcon pressedLoginImg = new ImageIcon("ButtonImage/PressedLogin.png");
+			ImageIcon pressedSignupImg = new ImageIcon("ButtonImage/PressedSignUp.png");
+			JButton signupButton;
+			JButton loginButton;
+			JLabel idLabel;
+			JLabel psLabel;
+			JTextField idField;
+			JTextField passwordField;
+
+			signupButton = new JButton(signupImg);
+			signupButton.setBounds(7, 163, 69, 24);
+			signupButton.setBackground(new Color(174,174,174));
+			signupButton.setPressedIcon(pressedSignupImg);
+			signupButton.setBorderPainted(false);
+			add(signupButton);
 			
-			JButton btnNewButton_1 = new JButton("New button");
-			btnNewButton_1.setBounds(12, 221, 97, 23);
-			add(btnNewButton_1);
+			loginButton = new JButton(loginImg );
+			loginButton.setBounds(81, 163, 69, 24);
+			loginButton.setBackground(new Color(174,174,174));
+			loginButton.setPressedIcon(pressedLoginImg);
+			loginButton.setBorderPainted(false);
+			add(loginButton);
+			
+			
+			idLabel = new JLabel("ID:");
+			idLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
+			idLabel.setBounds(7, 96, 27, 20);
+			add(idLabel);
+			
+			psLabel = new JLabel("PS:");
+			psLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
+			psLabel.setBounds(7, 128, 27, 20);
+			add(psLabel);
+
+			idField = new JTextField(""){
+	            @Override
+	            public void setBorder(Border border) {
+	                
+	            }
+	        };
+			idField.setBounds(30, 98, 118, 24);
+			idField.setBackground(new Color(115,115,115));
+			idField.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 13));
+			add(idField);
+			idField.setColumns(10);
+			
+			passwordField = new JTextField(""){
+	            @Override
+	            public void setBorder(Border border) {
+	                
+	            }
+	        };
+			passwordField.setBounds(30, 129, 118, 24);
+			passwordField.setBackground(new Color(115,115,115));
+			passwordField.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 13));
+			add(passwordField);
+			passwordField.setColumns(10);
+			
+			setLayout(null);
+			
 		}
 		
 		

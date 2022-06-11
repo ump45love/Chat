@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import GUI.BodyBone;
 import GUI.OptionBone.OptionBonePanel;
+import GUI.ServerJoinFrameBone;
 import GUI.UserListBone.UserListBonePanel;
 import Network.Client;
 
@@ -32,6 +33,7 @@ public class JFrameEventInsert {
 	
 	public static void ConnectServer(BodyBone bone,Client client) {
 		bone.OtherAreaUserList.ServerCreateButton.addActionListener(e ->{
+			bone.newWin.setVisible(true);
 			client.SendMessage(Network.Client.ROOM_CREATE+"trash");
 			bone.ChatTextArea.setText(null);
 		});
@@ -43,7 +45,6 @@ public class JFrameEventInsert {
 			bone.ChatTextArea.setText(null);
 		});
 	}
-	
 	
 	
 	public static void InsertEvent(BodyBone bone,Client client) {

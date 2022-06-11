@@ -82,10 +82,6 @@ public class UserListBone extends JFrame {
 			ServerJoinButton.setBounds(10, 502, 136, 23);
 			add(ServerJoinButton);
 			ServerJoinButton.setForeground(UIManager.getColor("window"));
-			ServerJoinButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-				}
-			});
 			ServerJoinButton.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 12));
 			ServerJoinButton.setBackground(new Color(174,174,174));
 			ServerJoinButton.setBorderPainted(false);
@@ -95,10 +91,6 @@ public class UserListBone extends JFrame {
 			ServerCreateButton = new JButton(ServerCreateImg);
 			ServerCreateButton.setBounds(10, 469, 136, 23);
 			add(ServerCreateButton);
-			ServerCreateButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-				}
-			});
 			ServerCreateButton.setBackground(new Color(174,174,174));
 			ServerCreateButton.setForeground(UIManager.getColor("window"));
 			ServerCreateButton.setBorderPainted(false);

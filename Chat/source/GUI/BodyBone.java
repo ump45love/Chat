@@ -52,7 +52,7 @@ public class BodyBone extends JFrame {
 	
 	public UserListBonePanel OtherAreaUserList;
 	public OptionBonePanel OtherAreaOption;
-
+	public ServerJoinFrameBone newWin;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -68,6 +68,8 @@ public class BodyBone extends JFrame {
 	void InitOtherWise() {
 		OtherAreaUserList = new UserListBonePanel(OtherAreaImg.getImage());
 		OtherAreaOption = new OptionBonePanel(OtherAreaImg.getImage());
+		newWin = new ServerJoinFrameBone(this);
+		newWin.setVisible(false);
 	}
 	/**
 	 * Create the frame.
@@ -77,7 +79,7 @@ public class BodyBone extends JFrame {
 		setBackground(Color.WHITE);
 		setForeground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 543, 607);
+		setBounds(100, 100, 549, 607);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(29,29,29));
 		contentPane.setForeground(Color.LIGHT_GRAY);
@@ -136,12 +138,11 @@ public class BodyBone extends JFrame {
 		MenuArea = new DrawImage(MenuAreaImg.getImage());
 		MenuArea.setBackground(Color.YELLOW);
 		MenuArea.setBorder(null);
-		MenuArea.setBounds(399, 4, 128, 30);
+		MenuArea.setBounds(405, 4, 128, 30);
 		contentPane.add(MenuArea);
 		MenuArea.setLayout(null);
 		
 		SettingButton = new JButton(SettingIconImg);
-		//SettingButton.addActionListener((e) ->{contentPane.remove(OtherAreaUserList); 	contentPane.add(OtherAreaOption); repaint();});
 		SettingButton.setBounds(98, 5, 24, 24);
 		MenuArea.add(SettingButton);
 		SettingButton.setForeground(new Color(0, 0, 0));
@@ -150,7 +151,6 @@ public class BodyBone extends JFrame {
 		SettingButton.setBorderPainted(false);
 		
 		UserListButton = new JButton(UserListIconImg);
-		//UserListButton.addActionListener((e) -> {contentPane.remove(OtherAreaOption); 	contentPane.add(OtherAreaUserList);repaint();});
 		UserListButton.setBackground(new Color(101,101,101));
 		UserListButton.setBounds(10, 5, 79, 24);
 		UserListButton.setBorderPainted(false);

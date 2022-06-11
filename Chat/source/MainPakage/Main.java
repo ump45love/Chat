@@ -5,12 +5,14 @@ import java.awt.EventQueue;
 
 import Event.JFrameEventInsert;
 import GUI.BodyBone;
+import Network.Client;
 
 public class Main {
 	
 	public static void main(String[] args) {
-		CombineClass bone = new CombineClass();
-	
+		BodyBone bone = new BodyBone();
+		Client client = new Client("127.0.0.1",5000);
+		CombineClass comine = new CombineClass(bone,client);	
 	}
 
 

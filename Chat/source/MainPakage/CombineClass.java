@@ -8,9 +8,9 @@ public class CombineClass {
 	BodyBone bone;
 	Client client;
 	
-	CombineClass(){
-		bone = new BodyBone();
-		client = new Client("127.0.0.0",40455);
+	CombineClass(BodyBone b,Client c){
+		bone = b;
+		client = c;
 		ClientSetting();
 		GUISetting();
 	}
