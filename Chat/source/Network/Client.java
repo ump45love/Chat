@@ -1,6 +1,10 @@
 package Network;
 
+import java.awt.Image;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -11,18 +15,28 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Client extends Thread{
-	
-	  public static final char CHAT = 'a';
-	  public static final char IMAGE = 'b';
-	  public static final char USER_DATA = 'c';
-	  public static final char ROOM_CREATE = 'd';
-	  public static final char ROOM_CONNECT= 'e';
-	  public static final char ROOM_OUT = 'f';
-	  public static final char SERVER_WARNING = 'g';
-	
+	public static final byte IMAGE_TYPE = 1;
+	public static final byte STRING_TYPE = 0;
+	public static final byte GET_MESSAGE = 0;
+	public static final byte SIGN_UP_CHECK = 1;
+	public static final byte CREATE_ROOM_CHECK = 2;
+	public static final byte GET_ROOM_LIST = 3;
+	public static final char GET_IMAGE = 0;
+	public static final char GET_USER_LIST = 1;
+	public static final char CHAT = 'a';
+	public static final char IMAGE = 'b';
+	public static final char USER_DATA = 'c';
+	public static final char ROOM_CREATE = 'd';
+	public static final char ROOM_CONNECT= 'e';
+	public static final char ROOM_OUT = 'f';
+	public static final char SERVER_WARNING = 'g';
+
 	Socket ClientSocket;
-	BufferedReader in;
-	PrintWriter out;
+	Socket ClientImageSocket;
+	DataInputStream in;
+	DataOutputStream out;
+	DataInputStream imageIn;
+	DataOutputStream imageOut;
 	String postAddress;
 	int port;
 	boolean connectCheck;
@@ -37,12 +51,17 @@ public class Client extends Thread{
 		port = port_;
 		connectCheck= false;
 	}
-	
+	public void SendMessage() {
+		
+	}
 	public void ConnectServer() {
 		try {
 			ClientSocket = new Socket(postAddress,port);
-			out = new PrintWriter(ClientSocket.getOutputStream());
-			in = new BufferedReader(new InputStreamReader(ClientSocket.getInputStream()));
+			ClientImageSocket = new Socket(postAddress,port+1);
+			imageOut= new DataOutputStream(ClientImageSocket.getOutputStream());
+			imageIn = new DataInputStream(ClientImageSocket.getInputStream());
+			out = new DataOutputStream(ClientSocket.getOutputStream());
+			in = new DataInputStream(ClientSocket.getInputStream());
 			connectCheck =true;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -60,15 +79,115 @@ public class Client extends Thread{
 		}
 	}
 	
-	public void SendMessage(String msg) {
-		out.println(msg);
-		out.flush();
-	}
-	public void StopConnect() {
-		out.close();
+	public void	SendMessage(String msg) {
 		try {
+			out.writeByte(0);
+			out.writeByte(0);
+			out.writeChars(msg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void SignUp(String id, String ps) {
+		try {
+			out.writeByte(0);
+			out.writeByte(1);
+			out.writeChars(id);
+			out.writeChars(ps);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void CreateRoom(String name,String ps) {
+		try {
+			out.writeByte(0);
+			out.writeByte(2);
+			out.writeChars(name);
+			out.writeChars(ps);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void RequestRommList() {
+		try {
+			out.writeByte(1);
+			out.writeByte(0);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void SendImage(byte data[]) {
+		long dataLength = data.length;
+		try {
+			out.writeByte(2);
+			out.writeByte(0);
+			out.writeLong(dataLength);
+			out.write(data);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void SetProfileImage(byte data[]) {
+		long dataLength = data.length;
+		try {
+			out.writeByte(2);
+			out.writeByte(1);
+			out.writeLong(dataLength);
+			out.write(data);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void StopConnect() {
+		try {
+			ClientImageSocket.close();
 			ClientSocket.close();
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void recievData() {
+		try {
+			int chk = in.readByte();
+			int type = in.readByte();
+			switch (chk) {
+				case STRING_TYPE:
+					switch(type) {
+						case GET_MESSAGE:
+						break;
+						case SIGN_UP_CHECK:
+						break;
+						case CREATE_ROOM_CHECK:
+						break;
+						case GET_ROOM_LIST:
+					}
+				break;
+				
+				case IMAGE_TYPE:
+					switch(type) {
+						case GET_IMAGE:
+						break;
+						case GET_USER_LIST:
+						break;
+					}
+				break;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
