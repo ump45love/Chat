@@ -43,14 +43,14 @@ public class Client extends Thread{
 	int PortNumber;
 	public Client(String Address,int port_){
 		ClientSocket = null;
+		ClientImageSocket = null;
 		in = null;
 		out = null;
+		imageIn = null;
+		imageOut = null;
 		postAddress = Address;
 		port = port_;
 		connectCheck= false;
-	}
-	public void SendMessage() {
-		
 	}
 	public void ConnectServer() {
 		try {
