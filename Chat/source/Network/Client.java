@@ -15,8 +15,6 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Client extends Thread{
-	public static final byte IMAGE_TYPE = 1;
-	public static final byte STRING_TYPE = 0;
 	public static final byte GET_MESSAGE = 0;
 	public static final byte SIGN_UP_CHECK = 1;
 	public static final byte CREATE_ROOM_CHECK = 2;
@@ -68,20 +66,10 @@ public class Client extends Thread{
 			e.printStackTrace();
 		}
 	}
-	
-	public void ReadMessage() {
-		try {
-			System.out.println( in.readLine());
-			//return in.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+
 	
 	public void	SendMessage(String msg) {
 		try {
-			out.writeByte(0);
 			out.writeByte(0);
 			out.writeChars(msg);
 		} catch (IOException e) {
@@ -92,7 +80,6 @@ public class Client extends Thread{
 	
 	public void SignUp(String id, String ps) {
 		try {
-			out.writeByte(0);
 			out.writeByte(1);
 			out.writeChars(id);
 			out.writeChars(ps);
@@ -104,7 +91,6 @@ public class Client extends Thread{
 	
 	public void CreateRoom(String name,String ps) {
 		try {
-			out.writeByte(0);
 			out.writeByte(2);
 			out.writeChars(name);
 			out.writeChars(ps);
@@ -116,8 +102,7 @@ public class Client extends Thread{
 	
 	public void RequestRommList() {
 		try {
-			out.writeByte(1);
-			out.writeByte(0);
+			out.writeByte(3);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -127,10 +112,9 @@ public class Client extends Thread{
 	public void SendImage(byte data[]) {
 		long dataLength = data.length;
 		try {
-			out.writeByte(2);
-			out.writeByte(0);
-			out.writeLong(dataLength);
-			out.write(data);
+			imageOut.writeByte(0);
+			imageOut.writeLong(dataLength);
+			imageOut.write(data);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -140,10 +124,9 @@ public class Client extends Thread{
 	public void SetProfileImage(byte data[]) {
 		long dataLength = data.length;
 		try {
-			out.writeByte(2);
-			out.writeByte(1);
-			out.writeLong(dataLength);
-			out.write(data);
+			imageOut.writeByte(1);
+			imageOut.writeLong(dataLength);
+			imageOut.write(data);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -160,31 +143,35 @@ public class Client extends Thread{
 		}
 	}
 	
-	public void recievData() {
+	synchronized public void recievImage() {
+		int type = 0;
 		try {
-			int chk = in.readByte();
+			type = imageIn.readByte();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		switch(type) {
+			case GET_IMAGE:
+				break;
+			case GET_USER_LIST:
+				break;
+		}
+		
+	}
+	
+	synchronized public void recievString() {
+		try {
 			int type = in.readByte();
-			switch (chk) {
-				case STRING_TYPE:
-					switch(type) {
-						case GET_MESSAGE:
-						break;
-						case SIGN_UP_CHECK:
-						break;
-						case CREATE_ROOM_CHECK:
-						break;
-						case GET_ROOM_LIST:
-					}
+			switch(type) {
+				case GET_MESSAGE:
 				break;
-				
-				case IMAGE_TYPE:
-					switch(type) {
-						case GET_IMAGE:
-						break;
-						case GET_USER_LIST:
-						break;
-					}
+				case SIGN_UP_CHECK:
 				break;
+				case CREATE_ROOM_CHECK:
+				break;
+				case GET_ROOM_LIST:
+
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -197,8 +184,11 @@ public class Client extends Thread{
 		 while(true) {
 			 try {Thread.sleep(10);} catch (InterruptedException e) 
 			 {e.printStackTrace();}
-			 if(connectCheck)
-				 ReadMessage();
+			 if(connectCheck) {
+				 recievString();
+				 recievImage();
+			 }
+			 	
 			 else {
 				 ConnectServer();
 				 try {Thread.sleep(1000);} 
