@@ -48,7 +48,7 @@ public class ChatAreaInsertBone extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		ChatInsertBone panel = new ChatInsertBone("sadasd");
+		ChatInsertBone panel = new ChatInsertBone("saasdsadasdaasdaddsadasdsd");
 		panel.setBackground(Color.DARK_GRAY);
 		panel.setForeground(Color.LIGHT_GRAY);
 		panel.setBounds(50, 64, 370, 115);
@@ -71,11 +71,12 @@ public class ChatAreaInsertBone extends JFrame {
 		DrawImage panelUpR;
 		DrawImage panelDownL;
 		DrawImage panelDownR;
-		JPanel panelWidth;
+		JPanel panelUpWidth;
 		JTextField textField;
 		int sizeX;
 		int sizeY;
 		public ChatInsertBone(String s) {
+			s = " " + s;
 			sizeX = getxLength(s);
 			sizeY = getyLength(s);
 			setBackground(Color.GRAY);
@@ -85,21 +86,26 @@ public class ChatAreaInsertBone extends JFrame {
 			panelUpR = new DrawImage(topRImg.getImage());
 			panelDownL = new DrawImage(bottomLImg.getImage());
 			panelDownR = new DrawImage(bottomRImg.getImage());
-			panelWidth = new JPanel();
-			panelWidth.setBackground(new Color(157,157,157));
-			panelWidth.setBounds(64, 23, sizeX, 3);
-			add(panelWidth);
+			panelUpWidth = new JPanel();
+			
+			panelUpWidth.setBackground(new Color(157,157,157));
+			panelUpWidth.setBounds(61, 23, sizeX-2, 4);
+			add(panelUpWidth);
+			
 			textField = new JTextField(s);
 			textField.setForeground(Color.WHITE);
 			textField.setBackground(new Color(157,157,157));
 			textField.setBorder(null);
 			textField.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
 			textField.setEditable(false);
-			textField.setBounds(58, 27, sizeX+10, sizeY);
+			textField.setBounds(58, 27, sizeX+3, sizeY);
 			add(textField);
+			
 			textField.setColumns(10);
-			panelUpL.setBounds(58, 23, 6, 6);
+			panelUpL.setBounds(55, 23, 6, 6);
+			panelUpR.setBounds(55+sizeX,23,6,6);
 			add(panelUpL);
+			add(panelUpR);
 			
 			setLayout(null);
 			
@@ -107,9 +113,9 @@ public class ChatAreaInsertBone extends JFrame {
 		
 		int getxLength(String s) {
 			int size = s.length();
-			if(size >16)
-				return 64;
-			return size*8;
+			if(size >15)
+				return 112;
+			return size*7;
 		}
 		int getyLength(String s) {
 			int size = s.length()/16;
