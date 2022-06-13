@@ -157,4 +157,8 @@ public class BodyBone extends JFrame {
 		UserListButton.setPressedIcon(PressedUserListIconImg);
 		MenuArea.add(UserListButton);
 	}
+	
+	void InsertChat(String s) {
+		
+	}
 }

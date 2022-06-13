@@ -14,6 +14,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
+import GUI.BodyBone;
+
 public class Client extends Thread{
 	public static final byte GET_MESSAGE = 0;
 	public static final byte SIGN_UP_CHECK = 1;
@@ -29,6 +31,7 @@ public class Client extends Thread{
 	public static final char ROOM_OUT = 'f';
 	public static final char SERVER_WARNING = 'g';
 
+	BodyBone bone;
 	Socket ClientSocket;
 	Socket ClientImageSocket;
 	DataInputStream in;
@@ -41,7 +44,7 @@ public class Client extends Thread{
 	
 	
 	int PortNumber;
-	public Client(String Address,int port_){
+	public Client(String Address,int port_,BodyBone bone){
 		ClientSocket = null;
 		ClientImageSocket = null;
 		in = null;
@@ -51,6 +54,7 @@ public class Client extends Thread{
 		postAddress = Address;
 		port = port_;
 		connectCheck= false;
+		this.bone = bone;
 	}
 	public void ConnectServer() {
 		try {
@@ -156,6 +160,16 @@ public class Client extends Thread{
 				break;
 			case GET_USER_LIST:
 				break;
+		}
+		
+	}
+	
+	synchronized void reciveMessage() {
+		try {
+			String s = in.readLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}
