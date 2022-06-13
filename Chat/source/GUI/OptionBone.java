@@ -65,22 +65,21 @@ public class OptionBone extends JFrame {
 	}
 	
 	public static class OptionBonePanel extends DrawImage{
+		ImageIcon loginImg = new ImageIcon("ButtonImage/Login.png");
+		ImageIcon signupImg = new ImageIcon("ButtonImage/SignUp.png");
+		ImageIcon pressedLoginImg = new ImageIcon("ButtonImage/PressedLogin.png");
+		ImageIcon pressedSignupImg = new ImageIcon("ButtonImage/PressedSignUp.png");
+		JButton signupButton;
+		JButton loginButton;
+		JLabel idLabel;
+		JLabel psLabel;
+		JTextField idField;
+		JTextField passwordField;
 		public OptionBonePanel(Image img) {
 			super(img);
 			setBackground(Color.GRAY);
 			setBounds(380, 34, 153, 535);
 			setLayout(null);
-			
-			ImageIcon loginImg = new ImageIcon("ButtonImage/Login.png");
-			ImageIcon signupImg = new ImageIcon("ButtonImage/SignUp.png");
-			ImageIcon pressedLoginImg = new ImageIcon("ButtonImage/PressedLogin.png");
-			ImageIcon pressedSignupImg = new ImageIcon("ButtonImage/PressedSignUp.png");
-			JButton signupButton;
-			JButton loginButton;
-			JLabel idLabel;
-			JLabel psLabel;
-			JTextField idField;
-			JTextField passwordField;
 
 			signupButton = new JButton(signupImg);
 			signupButton.setBounds(7, 163, 69, 24);
