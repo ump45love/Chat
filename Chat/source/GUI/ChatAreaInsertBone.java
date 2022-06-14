@@ -96,7 +96,7 @@ public class ChatAreaInsertBone extends JFrame {
 			
 			panelImage = new DrawImage(image);
 			panelImage .setBounds(2, 0, 50, 50);
-			add(panelImage );
+			add(panelImage);
 			
 			panelUpL= new DrawImage(topLImg.getImage());
 			panelUpR = new DrawImage(topRImg.getImage());
