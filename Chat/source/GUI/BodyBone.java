@@ -11,16 +11,23 @@ import java.awt.Font;
 import javax.swing.JScrollPane;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
+
+import GUI.ChatAreaInsertBone.ChatInsertBone;
 import GUI.OptionBone.OptionBonePanel;
 import GUI.UserListBone.UserListBonePanel;
 
 import java.awt.FlowLayout;
 import javax.swing.border.CompoundBorder;
+import java.awt.BorderLayout;
+import javax.swing.ScrollPaneConstants;
 
-public class BodyBone extends JFrame {
+public class BodyBone extends JFrame  implements KeyListener {
 	
 	ImageIcon SendImg = new ImageIcon("ButtonImage/Send.png");
 	ImageIcon ServerCreateImg = new ImageIcon("ButtonImage/ServerCreate.png");
@@ -39,20 +46,22 @@ public class BodyBone extends JFrame {
 	private JPanel contentPane;
 	
 	
-	DrawImage ChatArea;	
-	JScrollPane ChatAreaScroll;
+	public DrawImage ChatArea;	
+	public JScrollPane ChatAreaScroll;
 	DrawImage ChatSendArea;
-	public JTextArea ChatTextArea;
+	public TextAreaEnterSend  ChatTextArea;
 	JScrollPane ChatSendScroll;
 	DrawImage MenuArea;
 	
 	public JButton ChatSendButton;
 	public JButton UserListButton;
 	public JButton SettingButton;
+	public int scrollHeight;
 	
 	public UserListBonePanel OtherAreaUserList;
 	public OptionBonePanel OtherAreaOption;
 	public ServerJoinFrameBone newWin;
+	private JPanel panel;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -75,7 +84,7 @@ public class BodyBone extends JFrame {
 	 * Create the frame.
 	 */
 	public BodyBone() {
-		
+		scrollHeight = 25;
 		setBackground(Color.WHITE);
 		setForeground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,13 +99,26 @@ public class BodyBone extends JFrame {
 		ChatArea = new DrawImage(ChatAreaImg.getImage());
 		ChatArea.setForeground(Color.DARK_GRAY);
 		ChatArea.setBorder(null);
-		ChatArea.setBackground(new Color(174, 174, 174));
+		ChatArea.setBackground(Color.DARK_GRAY);
 		ChatArea.setBounds(0, 0, 380, 492);
+		Dimension size = new Dimension(380, 492);
+		ChatArea.setPreferredSize(size);
 		
 		ChatAreaScroll = new JScrollPane(ChatArea);
-		ChatArea.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		ChatAreaScroll.getVerticalScrollBar().setPreferredSize(new Dimension(6, 0));
+		ChatAreaScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		ChatAreaScroll.getVerticalScrollBar().setUnitIncrement(16);
+		ChatArea.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		
+		panel = new JPanel();
+		panel.setBackground(new Color(54,54,54));
+		Dimension a = new Dimension(100, 20);
+		panel.setPreferredSize(new Dimension(200, 20));
+		ChatArea.add(panel);
 		ChatAreaScroll.setBorder(new CompoundBorder());
 		ChatAreaScroll.setBounds(0, 4, 380, 490);
+		ChatAreaScroll.setBorder(null);
+		ChatAreaScroll.setOpaque(false);
 		contentPane.add(ChatAreaScroll);
 		
 		ChatSendArea = new DrawImage(SendAreaImg.getImage());
@@ -108,7 +130,7 @@ public class BodyBone extends JFrame {
 		
 		
 		
-		ChatTextArea = new JTextArea();
+		ChatTextArea = new TextAreaEnterSend();
 		ChatTextArea.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 13));
 		ChatTextArea.setBackground(new Color(115,115,115));
 		ChatTextArea.setForeground(Color.BLACK);
@@ -117,12 +139,18 @@ public class BodyBone extends JFrame {
 		ChatTextArea.setBorder(null);
 		
 		ChatSendScroll = new JScrollPane(ChatTextArea);
+		ChatSendScroll.getVerticalScrollBar().setPreferredSize(new Dimension(10, 0));
 		ChatSendScroll.setBounds(11, 11, 290, 55);
 		ChatSendScroll.setBorder(new CompoundBorder());
 		ChatSendArea.add(ChatSendScroll);
 		
 		
 		ChatSendButton = new JButton(SendImg);
+		ChatSendButton.setEnabled(false);
+		ChatSendButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		ChatSendButton.setContentAreaFilled(false);
 		ChatSendButton.setFocusPainted(false);
 		ChatSendButton.setBounds(312, 11, 60, 55);
@@ -161,10 +189,45 @@ public class BodyBone extends JFrame {
 		UserListButton.setBounds(10, 5, 79, 24);
 		UserListButton.setBorderPainted(false);
 		UserListButton.setPressedIcon(PressedUserListIconImg);
+		
 		MenuArea.add(UserListButton);
 	}
 	
 	void InsertChat(String s) {
+		
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		System.out.println("asdasdas");
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			String s= ChatTextArea.getText();
+			if(s.length() >255)
+				s= ChatTextArea.getText().substring(0,255);
+			if(s.isEmpty())
+				return;
+			//client.SendMessage(Network.Client.CHAT + s);
+			ChatInsertBone data = new ChatInsertBone(s,null,false);
+			ChatArea.add(data);
+			scrollHeight +=data.getHeight();
+			ChatTextArea.setText(null);
+			Dimension size = null;
+			if(scrollHeight > ChatArea.getHeight()) {
+				size = new Dimension(ChatArea.getWidth(),scrollHeight);
+				ChatArea.setPreferredSize(size);
+			}
+			revalidate();
+			ChatAreaScroll.getVerticalScrollBar().setValue(ChatAreaScroll.getVerticalScrollBar().getMaximum());
+			ChatTextArea.requestFocus();
+		}
+		}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }

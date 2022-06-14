@@ -12,7 +12,11 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
+import javax.swing.JOptionPane;
 
 import GUI.BodyBone;
 
@@ -21,6 +25,7 @@ public class Client extends Thread{
 	public static final byte SIGN_UP_CHECK = 1;
 	public static final byte CREATE_ROOM_CHECK = 2;
 	public static final byte GET_ROOM_LIST = 3;
+	public static final byte LOGIN_CHECK = 4;
 	public static final char GET_IMAGE = 0;
 	public static final char GET_USER_LIST = 1;
 	public static final char CHAT = 'a';
@@ -82,11 +87,15 @@ public class Client extends Thread{
 		}
 	}
 	
+	
 	public void SignUp(String id, String ps) {
 		try {
 			out.writeByte(1);
-			out.writeChars(id);
-			out.writeChars(ps);
+			out.flush();
+			out.writeUTF(id);
+			out.flush();
+			out.writeUTF(ps);
+			out.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -112,7 +121,19 @@ public class Client extends Thread{
 			e.printStackTrace();
 		}
 	}
-	
+	public void Login(String id, String ps) {
+		try {
+			out.writeByte(4);
+			out.flush();
+			out.writeUTF(id);
+			out.flush();
+			out.writeUTF(ps);
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void SendImage(byte data[]) {
 		long dataLength = data.length;
 		try {
@@ -147,7 +168,7 @@ public class Client extends Thread{
 		}
 	}
 	
-	synchronized public void recievImage() {
+	synchronized public void receiveImage() {
 		int type = 0;
 		try {
 			type = imageIn.readByte();
@@ -164,14 +185,69 @@ public class Client extends Thread{
 		
 	}
 	
-	synchronized void reciveMessage() {
+	synchronized void receiveMessage() {
 		try {
-			String s = in.readLine();
+			String s = in.readUTF();
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+	}
+	synchronized void receiveLogin() {
+		try {
+			int check = in.readByte();
+			if(check == 1) {
+				bone.OtherAreaOption.idField.setEnabled(false);
+				bone.OtherAreaOption.passwordField.setEnabled(false);
+				bone.OtherAreaOption.signupButton.setEnabled(false);
+				bone.OtherAreaUserList.ServerJoinButton.setEnabled(true);
+				bone.OtherAreaUserList.ServerCreateButton.setEnabled(true);
+				JOptionPane.showMessageDialog(null, "로그인 성공", "로그인", JOptionPane.WARNING_MESSAGE);
+			}else {
+				bone.OtherAreaOption.loginButton.setEnabled(true);
+				JOptionPane.showMessageDialog(null, "로그인 실패", "로그인", JOptionPane.WARNING_MESSAGE);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	synchronized public void receiveRoomList() {
+		ArrayList<RoomList> list = new ArrayList<RoomList>();
+		try {
+			int num = in.readByte();
+			for(int i = 0; i<num; i++ ) {
+				String name = in.readUTF();
+				String password = in.readUTF();
+				int number = in.readByte();
+				list.add(new RoomList(name,password,number));
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		bone.newWin.SetJoinListPanel(list);
+		bone.newWin.setVisible(true);
+	}
+	
+	synchronized void receiveSignUp() {
+		int check = 0;;
+		try {
+			check = in.readByte();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(check == 1) {
+			bone.OtherAreaOption.signupButton.setEnabled(true);
+			JOptionPane.showMessageDialog(null, "회원가입 성공", "회원가입", JOptionPane.WARNING_MESSAGE);
+		}else {
+			bone.OtherAreaOption.signupButton.setEnabled(true);
+			JOptionPane.showMessageDialog(null, "회원가입 실패", "회원가입", JOptionPane.WARNING_MESSAGE);
+		}
 	}
 	
 	synchronized public void recievString() {
@@ -181,10 +257,16 @@ public class Client extends Thread{
 				case GET_MESSAGE:
 				break;
 				case SIGN_UP_CHECK:
+					receiveSignUp();
 				break;
 				case CREATE_ROOM_CHECK:
 				break;
 				case GET_ROOM_LIST:
+					receiveRoomList();
+				break;
+				case LOGIN_CHECK:
+					receiveLogin();
+				break;
 
 			}
 		} catch (IOException e) {
@@ -200,7 +282,7 @@ public class Client extends Thread{
 			 {e.printStackTrace();}
 			 if(connectCheck) {
 				 recievString();
-				 recievImage();
+				 //recievImage();
 			 }
 			 	
 			 else {

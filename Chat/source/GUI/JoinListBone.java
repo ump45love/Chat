@@ -50,7 +50,7 @@ public class JoinListBone extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JoinListPanel  panel = new JoinListPanel( JoinListAreaImg.getImage());
+		JoinListPanel  panel = new JoinListPanel( JoinListAreaImg.getImage(),"sad",1);
 		panel.setBounds(28, 29, 319, 25);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -59,14 +59,14 @@ public class JoinListBone extends JFrame {
 	}
 	
 	public static class JoinListPanel extends DrawImage{
-		public JoinListPanel(Image img) {
+		JButton joinButton ;
+		JLabel userCountLabel;
+		JLabel roomNameLabel;
+		public JoinListPanel(Image img,String name, int number) {
 			super(img);
 			setBackground(Color.GRAY);
 			setBounds(380, 34, 330, 25);
 			setLayout(null);
-			JButton joinButton ;
-			JLabel userCountLabel;
-			JLabel roomNameLabel;
 			
 			joinButton = new JButton("\uC785\uC7A5");
 			joinButton.addActionListener(new ActionListener() {
@@ -82,13 +82,13 @@ public class JoinListBone extends JFrame {
 			joinButton.setBorderPainted(false);
 			add(joinButton);
 			
-			userCountLabel = new JLabel("");
+			userCountLabel = new JLabel( Integer.toString(number));
 			userCountLabel.setForeground(Color.WHITE);
 			userCountLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
 			userCountLabel.setBounds(220, 0, 39, 25);
 			add(userCountLabel);
 			
-			roomNameLabel = new JLabel("");
+			roomNameLabel = new JLabel(name);
 			roomNameLabel.setForeground(Color.WHITE);
 			roomNameLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
 			roomNameLabel.setBounds(12, 0, 190, 25);

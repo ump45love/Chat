@@ -88,9 +88,11 @@ public class UserListBone extends JFrame {
 			ServerJoinButton.setBackground(new Color(174,174,174));
 			ServerJoinButton.setBorderPainted(false);
 			ServerJoinButton.setPressedIcon(PressedServerJoinImg);
+			ServerJoinButton.setEnabled(false);
 			
 			
 			ServerCreateButton = new JButton(ServerCreateImg);
+			ServerCreateButton.setEnabled(false);
 			ServerCreateButton.setContentAreaFilled(false);
 			ServerCreateButton.setFocusPainted(false);
 			ServerCreateButton.setBounds(10, 469, 136, 23);

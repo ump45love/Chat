@@ -12,10 +12,14 @@ public class DrawImage extends JPanel {
 		  
 		  public DrawImage(Image img) {
 		      this.img = img;
-		      setSize(new Dimension(img.getWidth(null), img.getHeight(null)));
-		      setOpaque(true);
-		      setPreferredSize(new Dimension(img.getWidth(null), img.getHeight(null)));
-		      setLayout(null);
+		      if(img == null) {
+		    	  setLayout(null);
+		    	  setOpaque(true);
+		      }
+		      else {
+		    	  setSize(new Dimension(img.getWidth(null), img.getHeight(null)));
+		    	  setPreferredSize(new Dimension(img.getWidth(null), img.getHeight(null)));
+		      }
 		  }
 		  
 		  public void paintComponent(Graphics g) {

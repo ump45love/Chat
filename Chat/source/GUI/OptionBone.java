@@ -1,27 +1,16 @@
 package GUI;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-
-import GUI.UserListBone.UserListBonePanel;
-
-import javax.swing.JTextField;
 import javax.swing.JLabel;
-import java.awt.SystemColor;
 
 public class OptionBone extends JFrame {
 	ImageIcon OtherAreaImg = new ImageIcon("AreaImage/OtherAreaImage.png");
@@ -69,18 +58,17 @@ public class OptionBone extends JFrame {
 		ImageIcon signupImg = new ImageIcon("ButtonImage/SignUp.png");
 		ImageIcon pressedLoginImg = new ImageIcon("ButtonImage/PressedLogin.png");
 		ImageIcon pressedSignupImg = new ImageIcon("ButtonImage/PressedSignUp.png");
-		JButton signupButton;
-		JButton loginButton;
+		public JButton signupButton;
+		public JButton loginButton;
 		JLabel idLabel;
 		JLabel psLabel;
-		JTextField idField;
-		JTextField passwordField;
+		public LimitField idField;
+		public LimitPasswordField passwordField;
 		public OptionBonePanel(Image img) {
 			super(img);
 			setBackground(Color.GRAY);
 			setBounds(380, 34, 153, 535);
 			setLayout(null);
-
 			signupButton = new JButton(signupImg);
 			signupButton .setContentAreaFilled(false);
 			signupButton .setFocusPainted(false);
@@ -109,8 +97,7 @@ public class OptionBone extends JFrame {
 			psLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
 			psLabel.setBounds(7, 128, 27, 20);
 			add(psLabel);
-
-			idField = new JTextField(""){
+			idField = new LimitField(){
 	            @Override
 	            public void setBorder(Border border) {
 	                
@@ -122,7 +109,7 @@ public class OptionBone extends JFrame {
 			add(idField);
 			idField.setColumns(10);
 			
-			passwordField = new JTextField(""){
+			passwordField = new LimitPasswordField(){
 	            @Override
 	            public void setBorder(Border border) {
 	                

@@ -2,6 +2,7 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
@@ -20,8 +21,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
+import GUI.JoinListBone.JoinListPanel;
+
 import java.awt.CardLayout;
 import javax.swing.JTextArea;
+import java.awt.FlowLayout;
 
 public class ChatAreaInsertBone extends JFrame {
 
@@ -53,7 +58,6 @@ public class ChatAreaInsertBone extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
 		
 		File sourceimage = new File("a.png");
 		Image image = null;
@@ -63,17 +67,20 @@ public class ChatAreaInsertBone extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		contentPane.setLayout(null);
 		
-		ChatInsertBone panel = new ChatInsertBone(" "+msg,image);
-		panel.setBackground(Color.DARK_GRAY);
-		panel.setForeground(Color.LIGHT_GRAY);
-		panel.setBounds(50, 64, 370, panel.GetHeight());
-		contentPane.add(panel);
-		panel.setLayout(null);
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(0, 0, 434, 273);
+		Dimension size = new Dimension(434, 273);
+		panel_1.setPreferredSize(size);
+		contentPane.add(panel_1);
+		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		ChatInsertBone panel = new ChatInsertBone("sasfasfasgaうけいgげじぞqgげgq3ぞq3gさ",image,true);
+		panel_1.add(panel);
 				
 		
 	}
-	
 	public static class ChatInsertBone extends JPanel {
 		ImageIcon topLImg = new ImageIcon("chatArea/topl.png");
 		ImageIcon topRImg = new ImageIcon("chatArea/topr.png");
@@ -89,28 +96,28 @@ public class ChatAreaInsertBone extends JFrame {
 		DrawImage panelImage;
 		int sizeX;
 		int sizeY;
-		public ChatInsertBone(String s,Image image) {
-			s = initString(s);
-			setBackground(Color.GRAY);
-			setLayout(null);
-			
-			panelImage = new DrawImage(image);
-			panelImage .setBounds(2, 0, 50, 50);
-			add(panelImage);
-			
+		int positionX;
+		int positionY;
+		final int absolutLX = 55; 
+		final int absolutLY = 23; 
+		public ChatInsertBone(String s,Image image,boolean isleft) {
+			s = initString(" "+s);
+			setBounds(50, 64, 370, GetHeight());
+			Dimension size = new Dimension(370, GetHeight());
+			setPreferredSize(size);
+			setLayout(null);	
+			setBackground(new Color(54,54,54));
+			setBorder(null);
 			panelUpL= new DrawImage(topLImg.getImage());
 			panelUpR = new DrawImage(topRImg.getImage());
 			panelDownL = new DrawImage(bottomLImg.getImage());
 			panelDownR = new DrawImage(bottomRImg.getImage());
 			panelUpWidth = new JPanel();
-			
 			panelUpWidth.setBackground(new Color(157,157,157));
-			panelUpWidth.setBounds(61, 23, sizeX-2, 4);
 			add(panelUpWidth);
 			
 			panelDownWidth = new JPanel();
 			panelDownWidth.setBackground(new Color(157,157,157));
-			panelDownWidth.setBounds(61, 26+sizeY, sizeX-2, 4);
 			add(panelDownWidth);
 			
 			
@@ -118,19 +125,36 @@ public class ChatAreaInsertBone extends JFrame {
 			textArea.setBackground(new Color(157,157,157));
 			textArea.setFont(new Font("玄精 壱拒", Font.BOLD, 12));
 			textArea.setEditable(false);
-			textArea.setBounds(58, 27, sizeX+3, sizeY);
 			add(textArea);
-			panelUpL.setBounds(55, 23, 6, 6);
-			panelUpR.setBounds(55+sizeX,23,6,6);
-			panelDownL.setBounds(55, 26+sizeY, 6, 6);
-			panelDownR.setBounds(55+sizeX,26+sizeY,6,6);
 			add(panelUpL);
 			add(panelUpR);
 			add(panelDownL);
 			add(panelDownR);
 			
+			if(isleft) {
+				panelImage = new DrawImage(image);
+				panelImage .setBounds(2, 0, 50, 50);
+				add(panelImage);
+				panelUpL.setBounds(55, 23, 6, 6);
+				panelUpR.setBounds(55+sizeX,23,6,6);
+				panelDownL.setBounds(55, 26+sizeY, 6, 6);
+				panelDownR.setBounds(55+sizeX,26+sizeY,6,6);
+				panelDownWidth.setBounds(61, 26+sizeY, sizeX-2, 4);
+				panelUpWidth.setBounds(61, 23, sizeX-2, 4);
+				textArea.setBounds(58, 27, sizeX+3, sizeY);
+			}
+			else {
+				int width = 360;
+				panelUpL.setBounds(width-sizeX, 23, 6, 6);
+				panelUpR.setBounds(width,23,6,6);
+				panelDownL.setBounds(width-sizeX, 26+sizeY, 6, 6);
+				panelDownR.setBounds(width,26+sizeY,6,6);
+				panelDownWidth.setBounds(width+6-sizeX, 26+sizeY, sizeX-2, 4);
+				panelUpWidth.setBounds(width+6-sizeX, 23, sizeX-2, 4);
+				textArea.setBounds(width+3-sizeX, 27, sizeX+3, sizeY);
+			}
+			
 			setLayout(null);
-			setBounds(380, 34, 370, sizeY); 
 			
 		}
 		
