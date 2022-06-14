@@ -82,6 +82,8 @@ public class OptionBone extends JFrame {
 			setLayout(null);
 
 			signupButton = new JButton(signupImg);
+			signupButton .setContentAreaFilled(false);
+			signupButton .setFocusPainted(false);
 			signupButton.setBounds(7, 163, 69, 24);
 			signupButton.setBackground(new Color(174,174,174));
 			signupButton.setPressedIcon(pressedSignupImg);
@@ -90,6 +92,8 @@ public class OptionBone extends JFrame {
 			
 			loginButton = new JButton(loginImg );
 			loginButton.setBounds(81, 163, 69, 24);
+			loginButton .setContentAreaFilled(false);
+			loginButton .setFocusPainted(false);
 			loginButton.setBackground(new Color(174,174,174));
 			loginButton.setPressedIcon(pressedLoginImg);
 			loginButton.setBorderPainted(false);
