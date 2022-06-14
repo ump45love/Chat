@@ -34,7 +34,7 @@ public class ChatAreaInsertBone extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ChatAreaInsertBone frame = new ChatAreaInsertBone("(..................................................................................................................................)");
+					ChatAreaInsertBone frame = new ChatAreaInsertBone("asdasdsadasしいけしいしけasdasdsadasしいけしいしけasdasdsadasしいけしいしけasdasdsadasしいけしいしけasdasdsadasしいけしいしけasdasdsadasしいけしいしけasdasdsadasしいけしいしけasdasdsadasしいけしいしけasdasdsadasしいけしいしけasdasdsadasしいけしいしけasdasdsadasしいけしいしけasdasdsadasしいけしいしけasdasdsadasしいけしいしけasdasdsadasしいけしいしけasdasdsadasしいけしいしけasdasdsadasしいけしいしけasdasdsadasしいけしいしけ");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -55,25 +55,22 @@ public class ChatAreaInsertBone extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		ChatInsertBone panel = new ChatInsertBone(" "+msg);
-		panel.setBackground(Color.DARK_GRAY);
-		panel.setForeground(Color.LIGHT_GRAY);
-		panel.setBounds(50, 64, 370, 115);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
 		File sourceimage = new File("a.png");
-		Image image1 = null;
+		Image image = null;
 		try {
-			image1 = ImageIO.read(sourceimage);
+			image = ImageIO.read(sourceimage);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		DrawImage panel_1 = new DrawImage(image1);
-		panel_1.setBounds(2, 0, 50, 50);
-		panel.add(panel_1);
 		
+		ChatInsertBone panel = new ChatInsertBone(" "+msg,image);
+		panel.setBackground(Color.DARK_GRAY);
+		panel.setForeground(Color.LIGHT_GRAY);
+		panel.setBounds(50, 64, 370, panel.GetHeight());
+		contentPane.add(panel);
+		panel.setLayout(null);
+				
 		
 	}
 	
@@ -89,13 +86,18 @@ public class ChatAreaInsertBone extends JFrame {
 		JPanel panelUpWidth;
 		JPanel panelDownWidth;
 		JTextArea textArea;
+		DrawImage panelImage;
 		int sizeX;
 		int sizeY;
-		public ChatInsertBone(String s) {
+		public ChatInsertBone(String s,Image image) {
 			s = initString(s);
 			setBackground(Color.GRAY);
-			setBounds(380, 34, 370, 10+sizeY); 
 			setLayout(null);
+			
+			panelImage = new DrawImage(image);
+			panelImage .setBounds(2, 0, 50, 50);
+			add(panelImage );
+			
 			panelUpL= new DrawImage(topLImg.getImage());
 			panelUpR = new DrawImage(topRImg.getImage());
 			panelDownL = new DrawImage(bottomLImg.getImage());
@@ -128,7 +130,12 @@ public class ChatAreaInsertBone extends JFrame {
 			add(panelDownR);
 			
 			setLayout(null);
+			setBounds(380, 34, 370, sizeY); 
 			
+		}
+		
+		int GetHeight() {
+			return sizeY+35;
 		}
 		String initString(String s) {
 			String save = new String();
@@ -136,8 +143,6 @@ public class ChatAreaInsertBone extends JFrame {
 			FontRenderContext frc = new FontRenderContext(new AffineTransform(), true, true);
 			int width = 0;
 			sizeX=0;
-			System.out.println(s);
-			System.out.println(s.length());
 			for(int i = 0; i< s.length(); i++) {
 				String data = s.substring(i,i+1);
 				width += (int)(font.getStringBounds(data, frc).getWidth());

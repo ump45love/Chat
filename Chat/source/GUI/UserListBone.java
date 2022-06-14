@@ -79,6 +79,8 @@ public class UserListBone extends JFrame {
 			UserListTextArea.setBounds(12, 10, 129, 446);
 			
 			ServerJoinButton = new JButton(ServerJoinImg);
+			ServerJoinButton  .setContentAreaFilled(false);
+			ServerJoinButton .setFocusPainted(false);
 			ServerJoinButton.setBounds(10, 502, 136, 23);
 			add(ServerJoinButton);
 			ServerJoinButton.setForeground(UIManager.getColor("window"));
@@ -89,6 +91,8 @@ public class UserListBone extends JFrame {
 			
 			
 			ServerCreateButton = new JButton(ServerCreateImg);
+			ServerCreateButton.setContentAreaFilled(false);
+			ServerCreateButton.setFocusPainted(false);
 			ServerCreateButton.setBounds(10, 469, 136, 23);
 			add(ServerCreateButton);
 			ServerCreateButton.setBackground(new Color(174,174,174));

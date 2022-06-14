@@ -123,6 +123,8 @@ public class BodyBone extends JFrame {
 		
 		
 		ChatSendButton = new JButton(SendImg);
+		ChatSendButton.setContentAreaFilled(false);
+		ChatSendButton.setFocusPainted(false);
 		ChatSendButton.setBounds(312, 11, 60, 55);
 		ChatSendArea.add(ChatSendButton);
 		ChatSendButton.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 13));
@@ -144,6 +146,8 @@ public class BodyBone extends JFrame {
 		
 		SettingButton = new JButton(SettingIconImg);
 		SettingButton.setBounds(98, 5, 24, 24);
+		SettingButton.setContentAreaFilled(false);
+		SettingButton.setFocusPainted(false);
 		MenuArea.add(SettingButton);
 		SettingButton.setForeground(new Color(0, 0, 0));
 		SettingButton.setBackground(new Color(101,101,101));
@@ -151,6 +155,8 @@ public class BodyBone extends JFrame {
 		SettingButton.setBorderPainted(false);
 		
 		UserListButton = new JButton(UserListIconImg);
+		UserListButton .setContentAreaFilled(false);
+		UserListButton .setFocusPainted(false);
 		UserListButton.setBackground(new Color(101,101,101));
 		UserListButton.setBounds(10, 5, 79, 24);
 		UserListButton.setBorderPainted(false);

@@ -74,6 +74,8 @@ public class JoinListBone extends JFrame {
 				}
 			});
 			joinButton.setForeground(Color.WHITE);
+			joinButton.setContentAreaFilled(false);
+			joinButton.setFocusPainted(false);
 			joinButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
 			joinButton.setBackground(new Color(54,54,54));
 			joinButton.setBounds(250, 1, 58, 23);
