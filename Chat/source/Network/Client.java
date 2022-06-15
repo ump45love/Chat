@@ -19,6 +19,7 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 import GUI.BodyBone;
+import Object.RoomList;
 
 public class Client extends Thread{
 	public static final byte GET_MESSAGE = 0;

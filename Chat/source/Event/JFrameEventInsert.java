@@ -47,8 +47,8 @@ public class JFrameEventInsert {
 		});
 	}
 	
+	
 	public static void SendEnter(BodyBone bone,Client client) {
-		Function<Integer,Integer> funtion= i->i+1;
 		BiFunction<Client,BodyBone,Integer> f = (c,b) ->{
 			String s= b.ChatTextArea.getText();
 			if(s.length() >255)
@@ -70,7 +70,7 @@ public class JFrameEventInsert {
 			}
 			return null;
 		};
-		bone.ChatTextArea.setKeyListener(client,bone,f);
+		bone.ChatTextArea.setKeyListener(client, bone, f);
 	}
 	
 	public static void SendMessage(BodyBone bone,Client client) {

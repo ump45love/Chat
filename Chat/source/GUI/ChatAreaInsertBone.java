@@ -23,6 +23,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import GUI.JoinListBone.JoinListPanel;
+import Object.DrawImage;
 
 import java.awt.CardLayout;
 import javax.swing.JTextArea;

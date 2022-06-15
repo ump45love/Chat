@@ -10,6 +10,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+
+import Object.DrawImage;
+import Object.LimitField;
+import Object.LimitPasswordField;
+
 import javax.swing.JLabel;
 
 public class OptionBone extends JFrame {

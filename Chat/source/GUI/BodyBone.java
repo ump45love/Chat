@@ -21,6 +21,8 @@ import javax.swing.UIManager;
 import GUI.ChatAreaInsertBone.ChatInsertBone;
 import GUI.OptionBone.OptionBonePanel;
 import GUI.UserListBone.UserListBonePanel;
+import Object.DrawImage;
+import Object.TextAreaEnterSend;
 
 import java.awt.FlowLayout;
 import javax.swing.border.CompoundBorder;

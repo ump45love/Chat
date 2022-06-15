@@ -11,7 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import GUI.ChatAreaInsertBone.ChatInsertBone;
 import GUI.JoinListBone.JoinListPanel;
-import Network.RoomList;
+import Object.RoomList;
 
 import java.awt.FlowLayout;
 import java.util.ArrayList;

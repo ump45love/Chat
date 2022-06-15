@@ -1,4 +1,4 @@
-package GUI;
+package Object;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

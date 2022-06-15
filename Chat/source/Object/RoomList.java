@@ -1,4 +1,4 @@
-package Network;
+package Object;
 
 import java.awt.Image;
 

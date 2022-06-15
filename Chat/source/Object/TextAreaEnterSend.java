@@ -1,4 +1,4 @@
-package GUI;
+package Object;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 
 import javax.swing.JTextArea;
 
+import GUI.BodyBone;
 import Network.Client;
 
 public class TextAreaEnterSend extends JTextArea  implements KeyListener{
@@ -14,7 +15,7 @@ public class TextAreaEnterSend extends JTextArea  implements KeyListener{
 	boolean isOk;
 	Client client;
 	BodyBone bone;
-	TextAreaEnterSend(){
+	public TextAreaEnterSend(){
 		isOk=false;
 		addKeyListener(this);
 	}
