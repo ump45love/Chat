@@ -21,6 +21,7 @@ import javax.swing.UIManager;
 import GUI.ChatAreaInsertBone.ChatInsertBone;
 import GUI.OptionBone.OptionBonePanel;
 import GUI.UserListBone.UserListBonePanel;
+import Network.Client;
 import Object.DrawImage;
 import Object.TextAreaEnterSend;
 
@@ -47,14 +48,13 @@ public class BodyBone extends JFrame  implements KeyListener {
 	ImageIcon PressedSettingIconImage = new ImageIcon("Image/PressedSettingIconArea.png");
 	private JPanel contentPane;
 	
-	
 	public DrawImage ChatArea;	
 	public JScrollPane ChatAreaScroll;
 	DrawImage ChatSendArea;
 	public TextAreaEnterSend  ChatTextArea;
 	JScrollPane ChatSendScroll;
 	DrawImage MenuArea;
-	
+	private Client client;
 	public JButton ChatSendButton;
 	public JButton UserListButton;
 	public JButton SettingButton;
@@ -63,6 +63,7 @@ public class BodyBone extends JFrame  implements KeyListener {
 	public UserListBonePanel OtherAreaUserList;
 	public OptionBonePanel OtherAreaOption;
 	public ServerJoinFrameBone newWin;
+	public ServerCreateFrameBone CreateRoomNewWin;
 	private JPanel panel;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -81,6 +82,8 @@ public class BodyBone extends JFrame  implements KeyListener {
 		OtherAreaOption = new OptionBonePanel(OtherAreaImg.getImage());
 		newWin = new ServerJoinFrameBone(this);
 		newWin.setVisible(false);
+		CreateRoomNewWin = new ServerCreateFrameBone(this);
+		CreateRoomNewWin.setVisible(false);
 	}
 	/**
 	 * Create the frame.
@@ -207,9 +210,11 @@ public class BodyBone extends JFrame  implements KeyListener {
 				s= ChatTextArea.getText().substring(0,255);
 			if(s.isEmpty())
 				return;
-			//client.SendMessage(Network.Client.CHAT + s);
-			ChatInsertBone data = new ChatInsertBone(s,null,false);
+			client.SendMessage(s);
+			ChatInsertBone data = new ChatInsertBone(s,null,null,false);
 			ChatArea.add(data);
+			if(ChatArea.countComponents() > 30)
+				ChatArea.remove(0);
 			scrollHeight +=data.getHeight();
 			ChatTextArea.setText(null);
 			Dimension size = null;
@@ -231,5 +236,9 @@ public class BodyBone extends JFrame  implements KeyListener {
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void SetClient(Client client) {
+		this.client = client;
 	}
 }

@@ -57,6 +57,7 @@ public class UserListBone extends JFrame {
 		contentPane.setBackground(Color.WHITE);
 		setContentPane(contentPane);
 		UserListBonePanel OtherArea = new UserListBonePanel(OtherAreaImg.getImage());
+		OtherArea.UserListTextArea.setForeground(Color.WHITE);
 		getContentPane().add(OtherArea);
 		OtherArea.setLayout(null);
 
@@ -79,6 +80,7 @@ public class UserListBone extends JFrame {
 			UserListTextArea = new JTextArea();
 			UserListTextArea.setFont(new Font("Monospaced", Font.BOLD, 13));
 			UserListTextArea.setBackground(new Color(178,178,178));
+			UserListTextArea.setEditable(false);
 			UserListTextArea.setBounds(12, 10, 129, 446);
 			
 			ServerJoinButton = new JButton(ServerJoinImg);

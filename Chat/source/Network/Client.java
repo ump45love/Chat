@@ -13,12 +13,16 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import GUI.BodyBone;
+import GUI.ChatAreaInsertBone.ChatInsertBone;
 import Object.RoomList;
 
 public class Client extends Thread{
@@ -27,47 +31,31 @@ public class Client extends Thread{
 	public static final byte CREATE_ROOM_CHECK = 2;
 	public static final byte GET_ROOM_LIST = 3;
 	public static final byte LOGIN_CHECK = 4;
-	public static final char GET_IMAGE = 0;
-	public static final char GET_USER_LIST = 1;
-	public static final char CHAT = 'a';
-	public static final char IMAGE = 'b';
-	public static final char USER_DATA = 'c';
-	public static final char ROOM_CREATE = 'd';
-	public static final char ROOM_CONNECT= 'e';
-	public static final char ROOM_OUT = 'f';
-	public static final char SERVER_WARNING = 'g';
 
 	BodyBone bone;
 	Socket ClientSocket;
-	Socket ClientImageSocket;
 	DataInputStream in;
 	DataOutputStream out;
-	DataInputStream imageIn;
-	DataOutputStream imageOut;
 	String postAddress;
 	int port;
 	boolean connectCheck;
+	ImgClient imgClient;
 	
 	
 	int PortNumber;
-	public Client(String Address,int port_,BodyBone bone){
+	public Client(String Address,int port_,BodyBone bone,ImgClient imgClient){
 		ClientSocket = null;
-		ClientImageSocket = null;
 		in = null;
 		out = null;
-		imageIn = null;
-		imageOut = null;
 		postAddress = Address;
 		port = port_;
 		connectCheck= false;
 		this.bone = bone;
+		this.imgClient =imgClient;
 	}
 	public void ConnectServer() {
 		try {
 			ClientSocket = new Socket(postAddress,port);
-			ClientImageSocket = new Socket(postAddress,port+1);
-			imageOut= new DataOutputStream(ClientImageSocket.getOutputStream());
-			imageIn = new DataInputStream(ClientImageSocket.getInputStream());
 			out = new DataOutputStream(ClientSocket.getOutputStream());
 			in = new DataInputStream(ClientSocket.getInputStream());
 			connectCheck =true;
@@ -81,7 +69,7 @@ public class Client extends Thread{
 	public void	SendMessage(String msg) {
 		try {
 			out.writeByte(0);
-			out.writeChars(msg);
+			out.writeUTF(msg);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -135,60 +123,25 @@ public class Client extends Thread{
 			e.printStackTrace();
 		}
 	}
-	public void SendImage(byte data[]) {
-		long dataLength = data.length;
-		try {
-			imageOut.writeByte(0);
-			imageOut.writeLong(dataLength);
-			imageOut.write(data);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+
 	
-	public void SetProfileImage(byte data[]) {
-		long dataLength = data.length;
-		try {
-			imageOut.writeByte(1);
-			imageOut.writeLong(dataLength);
-			imageOut.write(data);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
 	
 	public void StopConnect() {
 		try {
-			ClientImageSocket.close();
 			ClientSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	synchronized public void receiveImage() {
-		int type = 0;
-		try {
-			type = imageIn.readByte();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		switch(type) {
-			case GET_IMAGE:
-				break;
-			case GET_USER_LIST:
-				break;
-		}
-		
-	}
-	
 	synchronized void receiveMessage() {
 		try {
-			String s = in.readUTF();
+			String name = in.readUTF();
+			String content = in.readUTF();
+			ChatInsertBone data = new ChatInsertBone(content,imgClient.userArray.get(name),name,true);
+			bone.ChatArea.add(data);
+			if(bone.ChatArea.countComponents() > 30)
+				bone.ChatArea.remove(0);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -276,6 +229,8 @@ public class Client extends Thread{
 		}
 	}
 	
+
+	
 	 @Override
 	  public void run() {
 		 while(true) {
@@ -283,7 +238,6 @@ public class Client extends Thread{
 			 {e.printStackTrace();}
 			 if(connectCheck) {
 				 recievString();
-				 //recievImage();
 			 }
 			 	
 			 else {

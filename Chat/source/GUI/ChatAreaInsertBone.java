@@ -77,8 +77,9 @@ public class ChatAreaInsertBone extends JFrame {
 		contentPane.add(panel_1);
 		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		ChatInsertBone panel = new ChatInsertBone("sasfasfasgaうけいgげじぞqgげgq3ぞq3gさ",image,true);
+		ChatInsertBone panel = new ChatInsertBone("sasfasfasgaうけいgげじぞqgげgq3ぞq3gさ",image,"映室遭",true);
 		panel_1.add(panel);
+		
 				
 		
 	}
@@ -95,13 +96,14 @@ public class ChatAreaInsertBone extends JFrame {
 		JPanel panelDownWidth;
 		JTextArea textArea;
 		DrawImage panelImage;
+		JLabel nicknameLabel;
 		int sizeX;
 		int sizeY;
 		int positionX;
 		int positionY;
 		final int absolutLX = 55; 
 		final int absolutLY = 23; 
-		public ChatInsertBone(String s,Image image,boolean isleft) {
+		public ChatInsertBone(String s,Image image,String nickname,boolean isleft) {
 			s = initString(" "+s);
 			setBounds(50, 64, 370, GetHeight());
 			Dimension size = new Dimension(370, GetHeight());
@@ -131,8 +133,13 @@ public class ChatAreaInsertBone extends JFrame {
 			add(panelUpR);
 			add(panelDownL);
 			add(panelDownR);
+			nicknameLabel = new JLabel("");
+			nicknameLabel .setForeground(Color.WHITE);
+			nicknameLabel .setFont(new Font("閏顕", Font.BOLD, 12));
+			nicknameLabel .setBounds(56, 5, 177, 15);
 			
 			if(isleft) {
+				add(nicknameLabel );
 				panelImage = new DrawImage(image);
 				panelImage .setBounds(2, 0, 50, 50);
 				add(panelImage);

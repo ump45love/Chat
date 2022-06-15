@@ -47,7 +47,6 @@ public class ServerJoinFrameBone extends JDialog {
 		scrollPane.setPreferredSize(size);
 		scrollPane.setBounds(0, 0, 400, 261);
 		contentPane.add(scrollPane);
-		ChatInsertBone panelCover = new ChatInsertBone("asdasdasdsads",null,true);
 		JPanel panel = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);

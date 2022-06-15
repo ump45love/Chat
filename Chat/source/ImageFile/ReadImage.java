@@ -33,11 +33,15 @@ public class ReadImage {
 		run.start();
 	}
 	
-	byte[] Getbyte() {
+	public ReadImage (byte data[]){
+		this.data = data;
+	}
+	
+	public byte[] Getbyte() {
 		return data;
 	}
 	
-	Image GetImage() {
+	public Image GetImage() {
 	      ByteArrayInputStream bis = new ByteArrayInputStream(data);
 	      BufferedImage image = null;
 		try {

@@ -8,6 +8,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import GUI.BodyBone;
@@ -17,6 +18,7 @@ import GUI.OptionBone.OptionBonePanel;
 import GUI.ServerJoinFrameBone;
 import GUI.UserListBone.UserListBonePanel;
 import Network.Client;
+import Network.ImgClient;
 
 public class JFrameEventInsert {
 	
@@ -48,30 +50,6 @@ public class JFrameEventInsert {
 	}
 	
 	
-	public static void SendEnter(BodyBone bone,Client client) {
-		BiFunction<Client,BodyBone,Integer> f = (c,b) ->{
-			String s= b.ChatTextArea.getText();
-			if(s.length() >255)
-				s= b.ChatTextArea.getText().substring(0,255);
-			if(!s.isEmpty()) {
-				//c.SendMessage(Network.Client.CHAT + s);
-				ChatInsertBone data = new ChatInsertBone(s,null,false);
-				b.ChatArea.add(data);
-				b.scrollHeight +=data.getHeight();
-				b.ChatTextArea.setText(null);
-				Dimension size = null;
-				if(b.scrollHeight > b.ChatArea.getHeight()) {
-					size = new Dimension(b.ChatArea.getWidth(),b.scrollHeight);
-					b.ChatArea.setPreferredSize(size);
-				}
-				b.revalidate();
-				b.ChatAreaScroll.getVerticalScrollBar().setValue(b.ChatAreaScroll.getVerticalScrollBar().getMaximum());
-				b.ChatTextArea.requestFocus();
-			}
-			return null;
-		};
-		bone.ChatTextArea.setKeyListener(client, bone, f);
-	}
 	
 	public static void SendMessage(BodyBone bone,Client client) {
 		bone.ChatSendButton.addActionListener(e ->{
@@ -80,9 +58,11 @@ public class JFrameEventInsert {
 				s= bone.ChatTextArea.getText().substring(0,255);
 			if(s.isEmpty())
 				return;
-			//client.SendMessage(Network.Client.CHAT + s);
-			ChatInsertBone data = new ChatInsertBone(s,null,false);
+			client.SendMessage(s);
+			ChatInsertBone data = new ChatInsertBone(s,null,null,false);
 			bone.ChatArea.add(data);
+			if(bone.ChatArea.countComponents() > 30)
+				bone.ChatArea.remove(0);
 			bone.scrollHeight +=data.getHeight();
 			bone.ChatTextArea.setText(null);
 			Dimension size = null;
@@ -107,22 +87,32 @@ public class JFrameEventInsert {
 		});
 	}
 	
-	public static void CreateServer(BodyBone bone,Client client) {
+	public static void CreateServerWinOpen(BodyBone bone,Client client) {
 		bone.OtherAreaUserList.ServerJoinButton.addActionListener(e ->{
 			bone.newWin.setVisible(true);
-			bone.ChatTextArea.setText(null);
+		});
+	}
+	public static void CreateServer(BodyBone bone, Client client) {
+		bone.CreateRoomNewWin.CreateRoomButton.addActionListener(e->{
+			String s = bone.CreateRoomNewWin.roomNameField.getText();
+			if(!s.isEmpty()) {
+				client.CreateRoom(bone.CreateRoomNewWin.roomNameField.getText(), bone.CreateRoomNewWin.roomPasswordField.getText());
+				bone.CreateRoomNewWin.roomNameField.setText(null);
+				 bone.CreateRoomNewWin.roomPasswordField.setText(null);
+				bone.CreateRoomNewWin.setVisible(false);
+			}
+			else
+				JOptionPane.showMessageDialog(null, "방 이름을 입력해주세요\n비밀번호는 입력하지 않아도 됩니다.", "이름", JOptionPane.WARNING_MESSAGE);
 		});
 	}
 	
-	
-	public static void InsertEvent(BodyBone bone,Client client) {
+	public static void InsertEvent(BodyBone bone,Client client,ImgClient imgClient) {
 		UserListEvent(bone);
 		SettingButtonEvent(bone);
 		SendMessage(bone,client);
 		CreateServer(bone,client);
 		ConnectServer(bone,client);
 		ScrollUpdate(bone);
-		SendEnter(bone,client);
 		Login(bone,client);
 		SignUp(bone,client);
 	}
