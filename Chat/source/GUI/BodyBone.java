@@ -32,8 +32,7 @@ import java.awt.BorderLayout;
 import javax.swing.ScrollPaneConstants;
 
 public class BodyBone extends JFrame  implements KeyListener {
-	java.net.URL imageURL = getClass().getClassLoader().getResource("ButtonImage/Send.png");
-	ImageIcon SendImg = new ImageIcon(imageURL);
+	ImageIcon SendImg = new ImageIcon("ButtonImage/Send.png");
 	ImageIcon ServerCreateImg = new ImageIcon("ButtonImage/ServerCreate.png");
 	ImageIcon ServerJoinImg = new ImageIcon("ButtonImage/ServerJoin.png");
 	ImageIcon PressedSnedImg = new ImageIcon("ButtonImage/PressedSend.png");
