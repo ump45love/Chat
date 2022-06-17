@@ -65,10 +65,14 @@ public class OptionBone extends JFrame {
 		ImageIcon pressedSignupImg = new ImageIcon("ButtonImage/PressedSignUp.png");
 		public JButton signupButton;
 		public JButton loginButton;
+		public JButton profileButton;
+		public JButton nickButton;
 		JLabel idLabel;
 		JLabel psLabel;
+		JLabel nickLabel;
 		public LimitField idField;
 		public LimitPasswordField passwordField;
+		public LimitField nickField;
 		public OptionBonePanel(Image img) {
 			super(img);
 			setBackground(Color.GRAY);
@@ -92,6 +96,29 @@ public class OptionBone extends JFrame {
 			loginButton.setBorderPainted(false);
 			add(loginButton);
 			
+			profileButton = new JButton("ÇÁ·ÎÇÊ ¼³Á¤");
+			profileButton.setBounds(7, 285, 149, 24);
+			profileButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
+			//profileButton .setContentAreaFilled(false);
+			profileButton .setFocusPainted(false);
+			profileButton.setBackground(new Color(140,140,140));
+			profileButton.setPressedIcon(pressedLoginImg);
+			profileButton.setBorderPainted(false);
+			profileButton.setEnabled(false);
+			add(profileButton);
+			
+			nickButton = new JButton("´Ð³×ÀÓ ¼³Á¤");
+			nickButton.setBounds(7, 255, 149, 24);
+			nickButton.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
+			//profileButton .setContentAreaFilled(false);
+			nickButton .setFocusPainted(false);
+			nickButton.setBackground(new Color(140,140,140));
+			nickButton.setPressedIcon(pressedLoginImg);
+			nickButton.setBorderPainted(false);
+			nickButton.setEnabled(false);
+			add(nickButton);
+			
+			
 			
 			idLabel = new JLabel("ID:");
 			idLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
@@ -108,6 +135,11 @@ public class OptionBone extends JFrame {
 	                
 	            }
 	        };
+	        nickLabel = new JLabel("´Ð³×ÀÓ:");
+	        nickLabel.setBounds(7, 225, 118, 24);
+	        nickLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 10));
+	        add(nickLabel);
+	        
 			idField.setBounds(30, 98, 118, 24);
 			idField.setBackground(new Color(115,115,115));
 			idField.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 13));
@@ -120,11 +152,23 @@ public class OptionBone extends JFrame {
 	                
 	            }
 	        };
+	        
 			passwordField.setBounds(30, 129, 118, 24);
 			passwordField.setBackground(new Color(115,115,115));
 			passwordField.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 13));
 			add(passwordField);
 			passwordField.setColumns(10);
+			
+			nickField = new LimitField(){
+	            @Override
+	            public void setBorder(Border border) {
+	                
+	            }
+	        };
+	        nickField.setBounds(42, 225, 114, 24);
+	        nickField.setBackground(new Color(115,115,115));
+	        nickField.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 13));
+	        add(nickField);
 			
 			setLayout(null);
 			

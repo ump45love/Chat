@@ -11,11 +11,13 @@ public class RoomList {
 	String password;
 	int number;
 	Image image;
+	int roomNumber;
 	
-	public RoomList(String name,String password,int number) {
+	public RoomList(String name,String password,int number,int roomNumber) {
 		this.name = name;
 		this.password = password;
 		this.number = number;
+		this.roomNumber = roomNumber;
 		image = new ImageIcon("AreaImage/JoinListAreaImage.png").getImage();
 	}
 	
@@ -42,6 +44,9 @@ public class RoomList {
 		this.password = password;
 		this.number = number;
 		
+	}
+	public int getRoomNumber() {
+		return roomNumber;
 	}
 	public JoinListPanel getJoinListPanel() {
 		return new JoinListPanel(image,name,number);

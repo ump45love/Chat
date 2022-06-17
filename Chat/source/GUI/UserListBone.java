@@ -110,5 +110,4 @@ public class UserListBone extends JFrame {
 			add(UserListTextArea);
 		}
 	}
-	
 }

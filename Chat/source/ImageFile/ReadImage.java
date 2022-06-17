@@ -1,8 +1,11 @@
 package ImageFile;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,23 +17,20 @@ import javax.imageio.ImageIO;
 public class ReadImage {
 	FileInputStream read;
 	byte data[];
+	BufferedImage image;
 	
-	ReadImage(String dir){
+	
+	public ReadImage(String dir){
 		try {
 			read = new FileInputStream(dir);
-		} catch (FileNotFoundException e) {
+			image = resize(read,50,50);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(image, "jpg", baos);
+            data= baos.toByteArray();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Thread run = new Thread(()->{
-			data=null;
-			try {
-				data = read.readAllBytes();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
-		run.start();
 	}
 	
 	public ReadImage (byte data[]){
@@ -39,6 +39,21 @@ public class ReadImage {
 	
 	public byte[] Getbyte() {
 		return data;
+	}
+	
+	public BufferedImage resize(InputStream stream, int width, int height) {
+		BufferedImage i = null;
+		try {
+			i = ImageIO.read(stream);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		BufferedImage newImage = new BufferedImage(width, height, i.getType());
+        Graphics2D g = newImage.createGraphics();
+        g.drawImage(i, 0, 0, width,height,null);
+        g.dispose();
+        return newImage;
 	}
 	
 	public Image GetImage() {

@@ -19,9 +19,10 @@ public class CombineClass {
 	}
 	
 	void ClientSetting(){
-		client.ConnectServer();
 		imgClient.ConnectServer();
+		client.ConnectServer();
 		client.start();
+		imgClient.start();
 	}
 	
 	void GUISetting() {

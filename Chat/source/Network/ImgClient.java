@@ -7,16 +7,19 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 
 import GUI.BodyBone;
 import ImageFile.ReadImage;
+import ImageFile.WriteImage;
 import Object.RoomList;
 
 public class ImgClient extends Thread {
 	public static final char GET_IMAGE = 0;
-	public static final char GET_USER_LIST = 1;
+	public static final char GET_USER_LIST = 2;
 
 	BodyBone bone;
 	Socket ClientImageSocket;
@@ -41,7 +44,7 @@ public class ImgClient extends Thread {
 	}
 	public void ConnectServer() {
 		try {
-			ClientImageSocket = new Socket(postAddress,port+1);
+			ClientImageSocket = new Socket(postAddress,port);
 			imageOut= new DataOutputStream(ClientImageSocket.getOutputStream());
 			imageIn = new DataInputStream(ClientImageSocket.getInputStream());
 			connectCheck =true;
@@ -68,17 +71,19 @@ public class ImgClient extends Thread {
 	public void RequestUserList() {
 		try {
 			imageOut.writeByte(2);
+			System.out.println("요청 완료");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public void SetProfileImage(byte data[]) {
-		long dataLength = data.length;
+	public void SetProfileImage(byte data[],String name) {
+		int dataLength = data.length;
 		try {
 			imageOut.writeByte(1);
-			imageOut.writeLong(dataLength);
+			imageOut.writeUTF(name);
+			imageOut.writeInt(dataLength);
 			imageOut.write(data);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -94,22 +99,24 @@ public class ImgClient extends Thread {
 			e.printStackTrace();
 		}
 	}
-	
+
 	
 	synchronized void receiveUserList() {
-		int count;
-		String save = null;
+		int count = 0;
+		System.out.println("받긴함");
+		String save = new String();
 		try {
 			userArray.clear();
 			count = imageIn.readByte();
+			System.out.println("숫자:"+count);
 			for(int i = 0; i<count; i++) {
 				String name = imageIn.readUTF();
+				save = save + name +"\n";
 				int size = imageIn.readInt();
 				if(size != 0) {
 					byte data[] = new byte[size];
 					imageIn.read(data);
 					userArray.put(name, new ReadImage(data).GetImage());
-					save = save + name +"\n";
 				}
 				else {
 					userArray.put(name, null);
@@ -120,6 +127,7 @@ public class ImgClient extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println(save);
 		bone.OtherAreaUserList.UserListTextArea.setText(save);
 	}
 	
@@ -136,7 +144,7 @@ public class ImgClient extends Thread {
 			case GET_IMAGE:
 				break;
 			case GET_USER_LIST:
-				
+				 receiveUserList();
 				break;
 		}
 		

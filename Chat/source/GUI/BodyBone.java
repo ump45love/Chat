@@ -241,4 +241,9 @@ public class BodyBone extends JFrame  implements KeyListener {
 	public void SetClient(Client client) {
 		this.client = client;
 	}
+	
+	public Client GetClient() {
+		return client;
+	}
 }
+

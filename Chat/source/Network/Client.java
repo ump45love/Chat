@@ -1,5 +1,6 @@
 package Network;
 
+import java.awt.Dimension;
 import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -17,12 +18,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import GUI.BodyBone;
 import GUI.ChatAreaInsertBone.ChatInsertBone;
+import GUI.JoinListBone.JoinListPanel;
 import Object.RoomList;
 
 public class Client extends Thread{
@@ -94,8 +98,10 @@ public class Client extends Thread{
 	public void CreateRoom(String name,String ps) {
 		try {
 			out.writeByte(2);
-			out.writeChars(name);
-			out.writeChars(ps);
+			out.writeUTF(name);
+			out.writeUTF(ps);
+			bone.ChatSendButton.setEnabled(true);
+			imgClient.RequestUserList();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -110,6 +116,7 @@ public class Client extends Thread{
 			e.printStackTrace();
 		}
 	}
+	
 	public void Login(String id, String ps) {
 		try {
 			out.writeByte(4);
@@ -125,6 +132,26 @@ public class Client extends Thread{
 	}
 
 	
+	public void connectRoom(RoomList data) {
+		try {
+			out.writeByte(5);
+			out.writeByte(data.getRoomNumber());
+			imgClient.RequestUserList();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void changeNickName(String name) {
+		try {
+			out.writeByte(6);
+			out.writeUTF(name);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	public void StopConnect() {
 		try {
@@ -140,8 +167,14 @@ public class Client extends Thread{
 			String content = in.readUTF();
 			ChatInsertBone data = new ChatInsertBone(content,imgClient.userArray.get(name),name,true);
 			bone.ChatArea.add(data);
-			if(bone.ChatArea.countComponents() > 30)
-				bone.ChatArea.remove(0);
+			bone.scrollHeight +=data.getHeight();
+			bone.ChatTextArea.setText(null);
+			Dimension size = null;
+			if(bone.scrollHeight > bone.ChatArea.getHeight()) {
+				size = new Dimension(bone.ChatArea.getWidth(),bone.scrollHeight);
+				bone.ChatArea.setPreferredSize(size);
+			}
+			bone.revalidate();
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -158,6 +191,8 @@ public class Client extends Thread{
 				bone.OtherAreaOption.signupButton.setEnabled(false);
 				bone.OtherAreaUserList.ServerJoinButton.setEnabled(true);
 				bone.OtherAreaUserList.ServerCreateButton.setEnabled(true);
+				bone.OtherAreaOption.nickButton.setEnabled(true);
+				bone.OtherAreaOption.profileButton.setEnabled(true);
 				JOptionPane.showMessageDialog(null, "로그인 성공", "로그인", JOptionPane.WARNING_MESSAGE);
 			}else {
 				bone.OtherAreaOption.loginButton.setEnabled(true);
@@ -177,14 +212,17 @@ public class Client extends Thread{
 				String name = in.readUTF();
 				String password = in.readUTF();
 				int number = in.readByte();
-				list.add(new RoomList(name,password,number));
+				int roomNumber = in.readByte();
+				list.add(new RoomList(name,password,number,roomNumber));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		bone.newWin.SetJoinListPanel(list);
-		bone.newWin.setVisible(true);
+		
+		
+		bone.newWin.SetJoinListPanel(list,bone);
+		bone.revalidate();
 	}
 	
 	synchronized void receiveSignUp() {
@@ -209,6 +247,7 @@ public class Client extends Thread{
 			int type = in.readByte();
 			switch(type) {
 				case GET_MESSAGE:
+					 receiveMessage();
 				break;
 				case SIGN_UP_CHECK:
 					receiveSignUp();

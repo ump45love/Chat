@@ -133,7 +133,7 @@ public class ChatAreaInsertBone extends JFrame {
 			add(panelUpR);
 			add(panelDownL);
 			add(panelDownR);
-			nicknameLabel = new JLabel("");
+			nicknameLabel = new JLabel(nickname);
 			nicknameLabel .setForeground(Color.WHITE);
 			nicknameLabel .setFont(new Font("±¼¸²", Font.BOLD, 12));
 			nicknameLabel .setBounds(56, 5, 177, 15);
