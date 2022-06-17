@@ -36,18 +36,6 @@ public class UserListBone extends JFrame {
 	
 	private JPanel contentPane;
 	ImageIcon OtherAreaImg = new ImageIcon("AreaImage/OtherAreaImage.png");
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					UserListBone frame = new UserListBone();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	public UserListBone() {
 		

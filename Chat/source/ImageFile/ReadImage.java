@@ -22,10 +22,11 @@ public class ReadImage {
 	
 	public ReadImage(String dir){
 		try {
+			
 			read = new FileInputStream(dir);
 			image = resize(read,50,50);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(image, "jpg", baos);
+            ImageIO.write(image, dir.substring(dir.length()-3), baos);
             data= baos.toByteArray();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -58,12 +59,14 @@ public class ReadImage {
 	
 	public Image GetImage() {
 	      ByteArrayInputStream bis = new ByteArrayInputStream(data);
+	      System.out.println("받은 용량:"+data.length);
 	      BufferedImage image = null;
 		try {
 			image = ImageIO.read(bis);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		}
 		return image;
 	}

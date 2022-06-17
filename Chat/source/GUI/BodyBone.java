@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
+import javax.print.DocFlavor.URL;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.JScrollPane;
@@ -31,8 +32,8 @@ import java.awt.BorderLayout;
 import javax.swing.ScrollPaneConstants;
 
 public class BodyBone extends JFrame  implements KeyListener {
-	
-	ImageIcon SendImg = new ImageIcon("ButtonImage/Send.png");
+	java.net.URL imageURL = getClass().getClassLoader().getResource("ButtonImage/Send.png");
+	ImageIcon SendImg = new ImageIcon(imageURL);
 	ImageIcon ServerCreateImg = new ImageIcon("ButtonImage/ServerCreate.png");
 	ImageIcon ServerJoinImg = new ImageIcon("ButtonImage/ServerJoin.png");
 	ImageIcon PressedSnedImg = new ImageIcon("ButtonImage/PressedSend.png");
@@ -65,18 +66,7 @@ public class BodyBone extends JFrame  implements KeyListener {
 	public ServerJoinFrameBone newWin;
 	public ServerCreateFrameBone CreateRoomNewWin;
 	private JPanel panel;
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BodyBone frame = new BodyBone();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 	void InitOtherWise() {
 		OtherAreaUserList = new UserListBonePanel(OtherAreaImg.getImage());
 		OtherAreaOption = new OptionBonePanel(OtherAreaImg.getImage());
@@ -203,29 +193,7 @@ public class BodyBone extends JFrame  implements KeyListener {
 	}
 	@Override
 	public void keyTyped(KeyEvent e) {
-		System.out.println("asdasdas");
-		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-			String s= ChatTextArea.getText();
-			if(s.length() >255)
-				s= ChatTextArea.getText().substring(0,255);
-			if(s.isEmpty())
-				return;
-			client.SendMessage(s);
-			ChatInsertBone data = new ChatInsertBone(s,null,null,false);
-			ChatArea.add(data);
-			if(ChatArea.countComponents() > 30)
-				ChatArea.remove(0);
-			scrollHeight +=data.getHeight();
-			ChatTextArea.setText(null);
-			Dimension size = null;
-			if(scrollHeight > ChatArea.getHeight()) {
-				size = new Dimension(ChatArea.getWidth(),scrollHeight);
-				ChatArea.setPreferredSize(size);
-			}
-			revalidate();
-			ChatAreaScroll.getVerticalScrollBar().setValue(ChatAreaScroll.getVerticalScrollBar().getMaximum());
-			ChatTextArea.requestFocus();
-		}
+
 		}
 	@Override
 	public void keyPressed(KeyEvent e) {

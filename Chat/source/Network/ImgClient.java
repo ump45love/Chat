@@ -101,14 +101,14 @@ public class ImgClient extends Thread {
 	}
 
 	
-	synchronized void receiveUserList() {
+	void receiveUserList() {
 		int count = 0;
+		boolean replay =false;
 		System.out.println("받긴함");
 		String save = new String();
 		try {
 			userArray.clear();
 			count = imageIn.readByte();
-			System.out.println("숫자:"+count);
 			for(int i = 0; i<count; i++) {
 				String name = imageIn.readUTF();
 				save = save + name +"\n";
@@ -116,7 +116,18 @@ public class ImgClient extends Thread {
 				if(size != 0) {
 					byte data[] = new byte[size];
 					imageIn.read(data);
-					userArray.put(name, new ReadImage(data).GetImage());
+					System.out.println("그냥 용량:"+data.length);
+					Image img = new ReadImage(data).GetImage();
+					if(img != null) {
+						System.out.println("그냥 넣음");
+						userArray.put(name, new ReadImage(data).GetImage());
+					}
+					else {
+						System.out.println("이미지 오류 수정");
+						byte data2[] = new byte[ imageIn.available()];
+						imageIn.read(data2);
+						replay= true;
+					}
 				}
 				else {
 					userArray.put(name, null);
@@ -124,11 +135,21 @@ public class ImgClient extends Thread {
 				
 			}
 		} catch (IOException e) {
+			try {
+				System.out.println("이미지 오류 수정");
+				byte data[] = new byte[ imageIn.available()];
+				imageIn.read(data);
+				replay= true;
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(save);
 		bone.OtherAreaUserList.UserListTextArea.setText(save);
+		if(replay)
+			RequestUserList();
 	}
 	
 	

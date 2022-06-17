@@ -6,11 +6,13 @@ import java.awt.event.KeyListener;
 import javax.swing.JTextField;
 
 public class LimitField extends JTextField implements KeyListener{
-	public LimitField() {	
+	int limit;
+	public LimitField(int limit) {	
 		addKeyListener(this);
+		this.limit = limit;
 	}
 	public void keyTyped(KeyEvent e) {
-		int max = 15;
+		int max = limit;
 		if(this.getText().length() > max+1) {
 			e.consume();
 			String shortened = this.getText().substring(0, max);

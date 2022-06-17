@@ -24,19 +24,6 @@ public class OptionBone extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					OptionBone frame = new OptionBone();
-					
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -129,7 +116,7 @@ public class OptionBone extends JFrame {
 			psLabel.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 12));
 			psLabel.setBounds(7, 128, 27, 20);
 			add(psLabel);
-			idField = new LimitField(){
+			idField = new LimitField(16){
 	            @Override
 	            public void setBorder(Border border) {
 	                
@@ -159,7 +146,7 @@ public class OptionBone extends JFrame {
 			add(passwordField);
 			passwordField.setColumns(10);
 			
-			nickField = new LimitField(){
+			nickField = new LimitField(12){
 	            @Override
 	            public void setBorder(Border border) {
 	                

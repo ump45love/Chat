@@ -84,6 +84,10 @@ public class JFrameEventInsert {
 				client.SendMessage(s);
 				ChatInsertBone data = new ChatInsertBone(s,null,null,false);
 				b.ChatArea.add(data);
+				if(b.ChatArea.countComponents() > 50) {
+					b.scrollHeight -=b.ChatArea.getComponent(1).getHeight();
+					b.ChatArea.remove(1);
+				}
 				b.scrollHeight +=data.getHeight();
 				b.ChatTextArea.setText(null);
 				Dimension size = null;
@@ -111,7 +115,7 @@ public class JFrameEventInsert {
 			ChatInsertBone data = new ChatInsertBone(s,null,null,false);
 			bone.ChatArea.add(data);
 			System.out.println(bone.ChatArea.countComponents());
-			if(bone.ChatArea.countComponents() > 30) {
+			if(bone.ChatArea.countComponents() > 50) {
 				bone.scrollHeight -=bone.ChatArea.getComponent(1).getHeight();
 				bone.ChatArea.remove(1);
 			}

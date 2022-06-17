@@ -101,7 +101,7 @@ public class Client extends Thread{
 			out.writeUTF(name);
 			out.writeUTF(ps);
 			bone.ChatSendButton.setEnabled(true);
-			imgClient.RequestUserList();
+			bone.revalidate();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -136,7 +136,7 @@ public class Client extends Thread{
 		try {
 			out.writeByte(5);
 			out.writeByte(data.getRoomNumber());
-			imgClient.RequestUserList();
+			bone.revalidate();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -167,6 +167,10 @@ public class Client extends Thread{
 			String content = in.readUTF();
 			ChatInsertBone data = new ChatInsertBone(content,imgClient.userArray.get(name),name,true);
 			bone.ChatArea.add(data);
+			if(bone.ChatArea.countComponents() > 50) {
+				bone.scrollHeight -=bone.ChatArea.getComponent(1).getHeight();
+				bone.ChatArea.remove(1);
+			}
 			bone.scrollHeight +=data.getHeight();
 			bone.ChatTextArea.setText(null);
 			Dimension size = null;
@@ -175,7 +179,7 @@ public class Client extends Thread{
 				bone.ChatArea.setPreferredSize(size);
 			}
 			bone.revalidate();
-
+			bone.ChatAreaScroll.getVerticalScrollBar().setValue(bone.ChatAreaScroll.getVerticalScrollBar().getMaximum());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
