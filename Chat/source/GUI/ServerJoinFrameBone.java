@@ -79,13 +79,15 @@ public class ServerJoinFrameBone extends JDialog {
 		for(int i = 0; i<list.size(); i++) {
 			RoomList data = list.get(i);
 			JoinListPanel save = data.getJoinListPanel();
-			if(data.getPasword().isEmpty()) {
-				bone.GetClient().connectRoom(data);
-				setVisible(false);
-			}
-			else {
 				save.joinButton.addActionListener((e) ->{
 				 RoomPasswordBone win = new RoomPasswordBone(data,bone);
+					if(data.getPasword().isEmpty()) {
+						bone.GetClient().connectRoom(data);
+						bone.ChatSendButton.setEnabled(true);
+						setVisible(false);
+						return;
+					}
+
 				setVisible(false);
 				win.setVisible(true);
 				win.sendButton.addActionListener((a)->{
@@ -100,7 +102,6 @@ public class ServerJoinFrameBone extends JDialog {
 					});
 				});
 				panel.add(save);
-			}
 		}
 	}
 
